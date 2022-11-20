@@ -52,6 +52,10 @@ button:hover {
     background-color: #333333;
 }
 
+button:active {
+    background-color: #1a1a1a;
+}
+
 .equals {
     width: 146px;
 }
@@ -62,4 +66,8 @@ button:hover {
 
 .number:hover{
     background-color: #247547;
+}
+
+.number:active {
+    background-color: #184e2f;
 }
