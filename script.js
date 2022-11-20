@@ -2,8 +2,11 @@ let previousOperand = '';
 let currentOperand = '';
 let operator = '';
 let hasPressedEquals = false;
+let isOn = false;
 
+const audioPlayer = document.getElementById("audio"); 
 const display = document.getElementById('display');
+const onButton = document.getElementById('on');
 const clearButton = document.getElementById('clear');
 const clearAllButton = document.getElementById('clear-all');
 const changeSignButton = document.getElementById('change-sign');
@@ -11,18 +14,59 @@ const equalsButton = document.querySelector('.equals');
 const numberButtons = document.querySelectorAll('.number');
 const operatorButtons = document.querySelectorAll('.operator');
 
+audioPlayer.loop = true;
 clearButton.addEventListener('click', () => clear());
 clearAllButton.addEventListener('click', () => clearAll());
 changeSignButton.addEventListener('click', () => changeSign());
 equalsButton.addEventListener('click', () => equalsButtonAction());
 numberButtons.forEach((button) =>
-  button.addEventListener('click', () => appendNumber(button.textContent))
+    button.addEventListener('click', () => appendNumber(button.textContent))
 );
 operatorButtons.forEach((button) =>
-  button.addEventListener('click', function(event) {
-    setOperator(this.id);
-  } 
+    button.addEventListener('click', function(event) {
+        setOperator(this.id);
+    } 
 ));
+
+turnOff();
+
+onButton.addEventListener('click', function(event) {
+    if (!isOn){
+        event.target.style.backgroundColor = '#184e2f';
+        //event.target.style.border = '3px solid #333333';
+        turnOn();
+    } else {
+        event.target.style.backgroundColor = '#1a1a1a';
+        //event.target.style.border = '0px solid #333333';
+        turnOff();
+    }
+});
+
+function turnOn(){
+    display.textContent = '0';
+    const buttons = document.getElementsByTagName("button");
+    for (const button of buttons) {
+        if (button.id != 'on'){
+            button.disabled = false;
+        }
+    }
+    isOn = true;
+    audioPlayer.play(); 
+}
+
+function turnOff(){
+    clearAll();
+    display.textContent = '';
+    const buttons = document.getElementsByTagName("button");
+    for (const button of buttons) {
+        if (button.id != 'on'){
+            button.disabled = true;
+        }
+    }
+    isOn = false;
+    audioPlayer.pause();
+    audioPlayer.currentTime = 0;
+}
 
 function add(a, b){
     return a+b;
@@ -61,7 +105,7 @@ function operate(operator, a, b){
             break;
     }
     
-    return result;
+    return result * 1;
 }
 
 function setOperator(id){
@@ -83,12 +127,12 @@ function appendNumber(number){
     if (hasPressedEquals && operator == ''){
         previousOperand = currentOperand;
         currentOperand = number;
-        display.textContent = number;
         hasPressedEquals = false;
     } else {
         currentOperand += number;
-        display.textContent = currentOperand;
     }
+
+    display.textContent = currentOperand;
 
 }
 
@@ -101,9 +145,9 @@ function returnResult(){
     if (operator == ''){
         return;
     }
-    let result = operate(operator, Number(previousOperand), Number(currentOperand)).toString();
+    let result = (operate(operator, Number(previousOperand), Number(currentOperand))).toString();
     if (result.length>=15){
-        result = result.slice(0, 15);
+        result = parseFloat(result.slice(0, 15)).toString();
     }
     display.textContent = result;
     currentOperand = result;
@@ -118,7 +162,6 @@ function equalsButtonAction(){
 function resetDisplay(){
     currentOperand = '';
     display.textContent = '0';
-
 }
 
 function clearAll(){

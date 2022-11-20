@@ -7,8 +7,13 @@
     <title>Calculator</title>
 </head>
 <body>
+    <audio controls id="audio" hidden="hidden">
+        <source src="calculator-tune.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
     <div id="calculator">
-        <div id="display">0</div>
+        <div id="display"></div>
+        <button id="on">ON</button>
         <div id="buttons">
             <button class="clear" id="clear-all">AC</button>
             <button class="clear" id="clear">C</button>
