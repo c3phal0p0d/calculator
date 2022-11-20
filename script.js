@@ -4,7 +4,6 @@ let operator = '';
 let hasPressedEquals = false;
 let isOn = false;
 
-const audioPlayer = document.getElementById("audio"); 
 const display = document.getElementById('display');
 const onButton = document.getElementById('on');
 const clearButton = document.getElementById('clear');
@@ -14,7 +13,6 @@ const equalsButton = document.querySelector('.equals');
 const numberButtons = document.querySelectorAll('.number');
 const operatorButtons = document.querySelectorAll('.operator');
 
-audioPlayer.loop = true;
 clearButton.addEventListener('click', () => clear());
 clearAllButton.addEventListener('click', () => clearAll());
 changeSignButton.addEventListener('click', () => changeSign());
@@ -33,11 +31,9 @@ turnOff();
 onButton.addEventListener('click', function(event) {
     if (!isOn){
         event.target.style.backgroundColor = '#184e2f';
-        //event.target.style.border = '3px solid #333333';
         turnOn();
     } else {
         event.target.style.backgroundColor = '#1a1a1a';
-        //event.target.style.border = '0px solid #333333';
         turnOff();
     }
 });
@@ -51,7 +47,6 @@ function turnOn(){
         }
     }
     isOn = true;
-    audioPlayer.play(); 
 }
 
 function turnOff(){
@@ -63,9 +58,7 @@ function turnOff(){
             button.disabled = true;
         }
     }
-    isOn = false;
-    audioPlayer.pause();
-    audioPlayer.currentTime = 0;
+    isOn = false
 }
 
 function add(a, b){
